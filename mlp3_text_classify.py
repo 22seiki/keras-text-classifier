@@ -5,18 +5,20 @@ from keras.utils import np_utils
 from sklearn.cross_validation import train_test_split
 from sklearn import cross_validation, metrics
 import json
+import numpy
 
 # max_words = 67395  # 入力単語数
 nb_classes = 3     # 3カテゴリを分類
 
-batch_size = 64
-nb_epoch = 20
+batch_size = 64  # 1回の学習で利用するサンプル数(バッチ処理)
+nb_epoch = 20  # サンプルの読み込み回数
 
 
 # MLPのモデルを生成
 def build_model():
     global max_words
-    model = Sequential()
+    model = Sequential()  # レイヤーの線形スタック
+    # .addでレイヤーの積み重ね
     model.add(Dense(512, input_shape=(max_words,)))
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
@@ -30,17 +32,18 @@ def build_model():
 data = json.load(open("./text/data.json"))
 # print('data: {}'.format(data))
 # data = json.load(open("./newstext/data.json"))
-X = data["X"]   # テキストを表すデータ
-Y = data["Y"]   # カテゴリデータ
+X = numpy.array(data["X"])   # テキストを表すデータ
+Y = numpy.array(data["Y"])   # カテゴリデータ
 max_words = len(X[0])
 # print('X: {}, Y: {}'.format(X, Y))
 # 学習
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
+# テキストの訓練データとテストデータ, カテゴリデータの訓練データとテストデータ
 Y_train = np_utils.to_categorical(Y_train, nb_classes)
 print(len(X_train), len(Y_train))
 model = KerasClassifier(
     build_fn=build_model,
-    nb_epoch=nb_epoch,
+    nb_epoch=20,
     batch_size=batch_size
 )
 # print('X_train: {}, Y_train: {}'.format(X_train, Y_train))

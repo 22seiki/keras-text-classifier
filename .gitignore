@@ -1,1 +1,4 @@
 /text
+*.bynaryfile
+/__pycache__
+/gensimPy3

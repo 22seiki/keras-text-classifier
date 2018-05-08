@@ -8,12 +8,15 @@ int calc(int s[MAX][MAX]);
 void solve(int a[MAX][MAX], int b[MAX]);
 int ans(int s[MAX][MAX]);
 
+int N[MAX][MAX];
+
 int main(){
     int a[MAX][MAX], b[MAX];
 
     for(int i=0; i<MAX; i++){
         for(int j=0; j<MAX; j++){
             cin >> a[i][j];
+            N[i][j] = 0;
         }
         cin >> b[i];
     }
@@ -78,4 +81,7 @@ int calc(int s[MAX][MAX]){
 
     cout << ans << endl;
     return ans;
+}
+
+int ans(int s[MAX][MAX]){
 }
